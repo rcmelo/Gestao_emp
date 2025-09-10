@@ -2,13 +2,11 @@
 
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
-    <title>Inserir Pedido</title>
+    <title>Novo Pedido</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-
 <body class="bg-light">
 
 <div class="container py-4">
@@ -43,24 +41,17 @@
                 ':id_fornecedor' => $id_fornecedor
             ]);
 
-            echo '<div class="alert alert-success">? Pedido inserido com sucesso! <a href="listar.php" class="alert-link">Voltar</a></div>';
+            echo '<div class="alert alert-success">Pedido inserido com sucesso! <a href="listar.php" class="alert-link">Voltar</a></div>';
         } catch (Exception $e) {
             echo '<div class="alert alert-danger">Erro: ' . $e->getMessage() . '</div>';
         }
     }
 
-    // ?? Buscar fornecedores cadastrados
-    $fornecedores = [];
-    try {
-        $sqlFor = "SELECT id_fornecedor, nome FROM fornecedor ORDER BY nome";
-        $stmtFor = $pdo->query($sqlFor);
-        $fornecedores = $stmtFor->fetchAll(PDO::FETCH_ASSOC);
-    } catch (Exception $e) {
-        echo '<div class="alert alert-warning">? Não foi possível carregar fornecedores: ' . $e->getMessage() . '</div>';
-    }
+    // Buscar fornecedores
+    $fornecedores = $pdo->query("SELECT id_fornecedor, nome FROM fornecedor ORDER BY nome")->fetchAll(PDO::FETCH_ASSOC);
     ?>
 
-    <form method="POST" class="row g-3">
+    <form method="POST" class="row g-3" onsubmit="return confirm('Tem certeza que deseja salvar este pedido?');">
         <div class="col-md-6">
             <label class="form-label">Produto</label>
             <input type="text" name="produto" class="form-control" required>
@@ -85,15 +76,13 @@
             <label class="form-label">Data Pagamento</label>
             <input type="date" name="data_pag" class="form-control">
         </div>
-
         <div class="col-md-6">
-                <label class="form-label">Status</label>
-                <select name="status" class="form-select" required>
-                    <option value="1" <?= $status['status'] == 1 ? 'selected' : '' ?>>Pago</option>
-                    <option value="0" <?= $status['status'] == 0 ? 'selected' : '' ?>>Em aberto</option>
-                </select>
-            </div>
-        
+            <label class="form-label">Status</label>
+            <select name="status" class="form-select" required>
+                <option value="1">Pago</option>
+                <option value="0">Em aberto</option>
+            </select>
+        </div>
         <div class="col-md-6">
             <label class="form-label">Fornecedor</label>
             <select name="id_fornecedor" class="form-select" required>
