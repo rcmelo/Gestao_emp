@@ -148,7 +148,7 @@ $cor_comissao = 'secondary';
             <div class="accordion-item bg-transparent border-0">
                 <h2 class="accordion-header" id="headingFunc">
                     <button class="accordion-button collapsed bg-transparent text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFunc" aria-expanded="false">
-                        <i class="bi bi-people me-2"></i> Funcion&aacute;rios
+                        <i class="bi bi-people me-2"> Funcion&aacute;rios </i> 
                     </button>
                 </h2>
                 <div id="collapseFunc" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
@@ -164,7 +164,7 @@ $cor_comissao = 'secondary';
             <div class="accordion-item bg-transparent border-0">
                 <h2 class="accordion-header" id="headingForn">
                     <button class="accordion-button collapsed bg-transparent text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseForn" aria-expanded="false">
-                        <i class="bi bi-building me-2"></i> Fornecedores
+                        <i class="bi bi-building me-2"> Fornecedores </i> 
                     </button>
                 </h2>
                 <div id="collapseForn" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
@@ -179,7 +179,7 @@ $cor_comissao = 'secondary';
             <div class="accordion-item bg-transparent border-0">
                 <h2 class="accordion-header" id="headingPed">
                     <button class="accordion-button collapsed bg-transparent text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePed" aria-expanded="false">
-                        <i class="bi bi-receipt me-2"></i> Pedidos
+                        <i class="bi bi-receipt me-2"> Pedidos </i> 
                     </button>
                 </h2>
                 <div id="collapsePed" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
@@ -194,13 +194,28 @@ $cor_comissao = 'secondary';
             <div class="accordion-item bg-transparent border-0">
                 <h2 class="accordion-header" id="headingBol">
                     <button class="accordion-button collapsed bg-transparent text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBol" aria-expanded="false">
-                        <i class="bi bi-clipboard2-check me-2"></i> Boletos
+                        <i class="bi bi-clipboard2-check me-2"> Boletos </i> 
                     </button>
                 </h2>
                 <div id="collapseBol" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
                     <div class="accordion-body p-0">
                         <a href="boleto/listar.php">Listar Boletos</a>
                         <a href="boleto/inserir.php">Novo Boleto</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gastos -->
+            <div class="accordion-item bg-transparent border-0">
+                <h2 class="accordion-header" id="headingOut">
+                    <button class="accordion-button collapsed bg-transparent text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOut" aria-expanded="false">
+                        <i class="bi bi-graph-down-arrow me-2"> Gastos </i> 
+                    </button>
+                </h2>
+                <div id="collapseOut" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
+                    <div class="accordion-body p-0">
+                        <a href="gastos/listar.php">Listar Gastos</a>
+                        <a href="gastos/inserir.php">Novo Gastos</a>
                     </div>
                 </div>
             </div>

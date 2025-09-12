@@ -8,15 +8,14 @@
     <meta charset="UTF-8">
     <title>Lista de Boletos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 </head>
 
 <body class="bg-light">
 
     <div class="container mt-5">
 
-        <a href="../principal.php" class="btn btn-dark mt-2 mb-3">Principal</a>
-        <a href="inserir.php" class="btn btn-success mt-2 mb-3">Novo Boleto</a>
+        <a href="../principal.php" class="btn btn-dark mt-2 mb-4">Principal</a>
+        <a href="inserir.php" class="btn btn-success mt-2 mb-4">Novo Boleto</a>
 
         <!-- Alertas -->
         <?php if (isset($_GET['msg'])): ?>
@@ -27,11 +26,11 @@
         <?php endif; ?>
 
         <div class="table-responsive">
-            <table id="tabelaBoleto" class="table table-striped table-hover table-bordered table-sm my-4">
+            <table id="tabelaBoleto" class="table table-striped table-hover table-striped table-bordered table-sm my-4">
                 <thead class="table-dark">
                     <tr>
                         <th>#</th>
-                        <th>Nº Boleto</th>
+                        <th>N&#0176; Boleto</th>
                         <th>Produto</th>
                         <th>Quantidade</th>
                         <th>Valor</th>
@@ -39,21 +38,21 @@
                         <th>Valor Pago</th>
                         <th>Data Pagamento</th>
                         <th>Status</th>
-                        <th>Observações</th>
+                        <th>Observa&ccedil;&otilde;es</th>
                         <th>Fornecedor</th>
-                        <th>Ações</th>
+                        <th>A&ccedil;&otilde;es</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
                     $query = $pdo->query("
-                        SELECT b.id_boleto, b.n_boleto, b.produto, b.quantidade, b.valor, 
-                               b.dt_vencimento, b.valor_pago, b.dt_pagamento, b.status, b.obs,
-                               f.nome AS fornecedor_nome
-                        FROM boleto_pag b
-                        INNER JOIN fornecedor f ON b.id_fornecedor = f.id_fornecedor
-                        ORDER BY b.id_boleto DESC
-                    ");
+                SELECT b.id_boleto, b.n_boleto, b.produto, b.quantidade, b.valor, 
+                       b.dt_vencimento, b.valor_pago, b.dt_pagamento, b.status, b.obs,
+                       f.nome AS fornecedor_nome
+                FROM boleto_pag b
+                INNER JOIN fornecedor f ON b.id_fornecedor = f.id_fornecedor
+                ORDER BY b.id_boleto DESC
+            ");
                     $res = $query->fetchAll(PDO::FETCH_ASSOC);
                     foreach ($res as $i => $row): ?>
                         <tr>
@@ -66,14 +65,23 @@
                             <td>R$<?= number_format($row['valor_pago'], 2, ',', '.') ?></td>
                             <td><?= $row['dt_pagamento'] ? date('d/m/Y', strtotime($row['dt_pagamento'])) : '-' ?></td>
                             <td>
-                                <?= $row['status'] == 1 ? '<span class="badge bg-success">Pago</span>' : '<span class="badge bg-warning">Em aberto</span>' ?>
+                                <?php
+                                if ($res[$i]['status'] == 1) {
+                                    echo '<span class="badge bg-success">Pago</span>';
+                                } else {
+                                    echo '<span class="badge bg-warning">Em aberto</span>';
+                                }
+                                ?>
                             </td>
-                            <td><?= htmlspecialchars($row['obs']) ?></td>
-                            <td><?= htmlspecialchars($row['fornecedor_nome']) ?></td>
+                            <td><?= $row['obs'] ?></td>
+                            <td><?= $row['fornecedor_nome'] ?></td>
                             <td>
                                 <div class="btn-group" role="group">
-                                    <a href="editar.php?id=<?= $row['id_boleto'] ?>" class="btn btn-sm btn-primary">Editar</a>
-                                    <a href="excluir.php?id=<?= $row['id_boleto'] ?>" onclick="return confirm('Tem certeza que deseja excluir este boleto?');" class="btn btn-sm btn-danger">Excluir</a>
+                                    <a href="editar.php?id=<?= $row['id_boleto'] ?>"
+                                        class="btn btn-sm btn-primary">Editar</a>
+                                    <a href="excluir.php?id=<?= $row['id_boleto'] ?>"
+                                        onclick="return confirm('Tem certeza que deseja excluir este boleto?');"
+                                        class="btn btn-sm btn-danger">Excluir</a>
                                 </div>
                             </td>
                         </tr>
@@ -83,26 +91,20 @@
         </div>
     </div>
 
-    <!-- Rodapé simples -->
-    <footer class="bg-dark text-white text-center py-3 mt-4">
-        &copy; <?= date('Y') ?> Sistema de Gestão - Todos os direitos reservados
-    </footer>
-
-    <!-- Scripts -->
+    <!-- Bootstrap + DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
         $(document).ready(function() {
             $('#tabelaBoleto').DataTable({
                 "pageLength": 10,
-                "lengthChange": true, // habilita select de linhas
+                "lengthChange": false,
                 "ordering": true,
                 "language": {
                     "search": "Buscar:",
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
                     "paginate": {
                         "next": "Próximo",
                         "previous": "Anterior"
@@ -114,5 +116,8 @@
             });
         });
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

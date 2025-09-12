@@ -19,9 +19,9 @@ $registros = $query->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 </head>
-<body class="bg-light">
+<body class="bg-light d-flex flex-column min-vh-100">
 
-<div class="container mt-5">
+<div class="container mt-5 mb-5 flex-grow-1"> <!-- flex-grow-1 empurra o rodapé -->
     <h2 class="mb-4">Salários e Comissões</h2>
     <a href="../principal.php" class="btn btn-dark mb-3">Principal</a>
     <a href="inserir.php" class="btn btn-success mb-3">Novo Registro</a>
@@ -74,14 +74,22 @@ $registros = $query->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
+<!-- Rodapé -->
+<footer class="bg-dark text-white text-center py-3">
+    &copy; <?= date('Y') ?> Sistema de Gestão - Todos os direitos reservados
+</footer>
+
+<!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
 $(document).ready(function() {
     $('#tabelaSalCom').DataTable({
         "pageLength": 10,
-        "lengthChange": true,
+        "lengthChange": true,  // permite selecionar quantidade de linhas
         "searching": true,
         "ordering": true,
         "language": {
@@ -96,6 +104,5 @@ $(document).ready(function() {
 });
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

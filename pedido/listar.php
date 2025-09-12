@@ -10,15 +10,16 @@ include '../db/conexao.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 </head>
-<body class="bg-light">
+<body class="bg-light d-flex flex-column min-vh-100">
 
-<div class="container mt-5">
+<div class="container mt-5 mb-5 flex-grow-1">
+    <h2 class="mb-4">Pedidos</h2>
 
-    <a href="../principal.php" class="btn btn-dark mt-2 mb-4">Principal</a>
-    <a href="inserir.php" class="btn btn-success mt-2 mb-4">Novo Pedido</a>
+    <a href="../principal.php" class="btn btn-dark mb-3">Principal</a>
+    <a href="inserir.php" class="btn btn-success mb-3">Novo Pedido</a>
 
     <div class="table-responsive">
-        <table id="tabelaPedido" class="table table-hover table-striped table-bordered table-sm my-4">
+        <table id="tabelaPedido" class="table table-hover table-striped table-bordered table-sm">
             <thead class="table-dark">
                 <tr>
                     <th>ID</th>
@@ -42,11 +43,11 @@ include '../db/conexao.php';
                 ");
                 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 
-                foreach ($res as $row) {
+                foreach ($res as $row):
                     $status = $row['status'] == 1 
                               ? '<span class="badge bg-success">Pago</span>' 
                               : '<span class="badge bg-warning">Em aberto</span>';
-                    ?>
+                ?>
                     <tr>
                         <td><?= $row['id_pedido'] ?></td>
                         <td><?= htmlspecialchars($row['produto']) ?></td>
@@ -59,24 +60,33 @@ include '../db/conexao.php';
                         <td><?= htmlspecialchars($row['fornecedor_nome']) ?></td>
                         <td>
                             <div class="btn-group" role="group">
-                                <!-- Editar -->
-                                <a href="editar.php?id=<?= $row['id_pedido'] ?>" class="btn btn-sm btn-primary">Editar</a>
+                                <!-- Editar via POST -->
+                                <form method="POST" action="editar.php" style="display:inline;">
+                                    <input type="hidden" name="id_pedido" value="<?= $row['id_pedido'] ?>">
+                                    <button type="submit" class="btn btn-sm btn-primary">Editar</button>
+                                </form>
 
-                                <!-- Excluir com POST seguro -->
-                                <form method="POST" action="excluir.php" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este pedido?');">
+                                <!-- Excluir via POST com confirmação -->
+                                <form method="POST" action="excluir.php" style="display:inline;" 
+                                      onsubmit="return confirm('Tem certeza que deseja excluir este pedido?');">
                                     <input type="hidden" name="id_pedido" value="<?= $row['id_pedido'] ?>">
                                     <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
                                 </form>
                             </div>
                         </td>
                     </tr>
-                <?php } ?>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>
-
 </div>
 
+<!-- Rodapé -->
+<footer class="bg-dark text-white text-center py-3 mt-auto">
+    &copy; <?= date('Y') ?> Sistema de Gestão - Todos os direitos reservados
+</footer>
+
+<!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
@@ -85,8 +95,8 @@ include '../db/conexao.php';
 <script>
 $(document).ready(function() {
     $('#tabelaPedido').DataTable({
-        "pageLength": 10,
-        "lengthChange": true,
+        "pageLength": 10,      // registros por página padrão
+        "lengthChange": true,  // permite alterar quantidade de linhas exibidas
         "searching": true,
         "ordering": true,
         "language": {
@@ -98,7 +108,7 @@ $(document).ready(function() {
             },
             "info": "Mostrando _START_ até _END_ de _TOTAL_ registros",
             "infoEmpty": "Nenhum registro encontrado",
-            "zeroRecords": "Nada encontrado",
+            "zeroRecords": "Nada encontrado"
         }
     });
 });
